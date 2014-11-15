@@ -10,7 +10,7 @@ The script runs every two minutes on my DD-WRT router and is invoked by cron (se
 Prerequisites
 =======
 
-  * Set up the cronjob within /etc/cron.d/speedcheck
+  * Set up a cronjob via the admin interface of your DD-WRT router (see Administration > Management > "Additional Cron Jobs")
   * Mount an USB storage device to /jffs
   * The rest, I think, you can figure out by yourself, the script itself is not hard to understand
 
