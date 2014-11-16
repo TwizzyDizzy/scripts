@@ -8,7 +8,7 @@ LOGFILE="/jffs/speedcheck/speedcheck.log"
 BEGIN_DATE=$(date +'%Y-%m-%d %H:%M:%S')
 echo "$BEGIN_DATE -- START RECEIVING DATA" >> $LOGFILE
 
-/usr/bin/iperf3 --reverse -n $DATASIZE --client $IPERF_SERVER --port $IPERF_SERVER_PORT >> $LOGFILE
+$IPERF --reverse -n $DATASIZE --client $IPERF_SERVER --port $IPERF_SERVER_PORT >> $LOGFILE
 
 END_DATE=$(date +'%Y-%m-%d %H:%M:%S')
 echo "$END_DATE -- RECEIVING DATA FINISHED" >> $LOGFILE
