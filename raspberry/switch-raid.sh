@@ -6,7 +6,7 @@
 # inspiration than using it in its current form.
 
 MD_RAID_DEVICE="behring5.chickenkiller.com:0"
-MD_RAID_COMPONENTS="/dev/disk/by-id/usb-WDC_WD50_00AAKX-001CA0_DCAD43109288-0:0 /dev/disk/by-id/usb-WDC_WD50_00AAKX-001CA0_DCAD43109288-0:1"
+MD_RAID_COMPONENTS="/dev/disk/by-id/usb-WDC_WD50_00AAKX-001CA0_DCAD43109288-0:0-part1 /dev/disk/by-id/usb-WDC_WD50_00AAKX-001CA0_DCAD43109288-0:1-part1"
 
 # what to do with the MD raid, "on" or "off"
 ACTION=$1
@@ -14,7 +14,7 @@ ACTION=$1
 if [[ "$ACTION" != "on" && "$ACTION" != "off" ]]; then
 	echo "Action must be either \"on\" or \"off\"!"
 	exit 1
-
+fi
 
 
 if [[ "$ACTION" == "on" ]]; then
