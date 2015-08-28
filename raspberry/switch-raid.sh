@@ -15,7 +15,7 @@
 # The script handles concurrent script calls meaning that no script will be able to shutdown
 # the raid while another script is still running and using the raid.
 #
-# Example: write or read something from disk with prio spinup and shutdown afterwards.
+# EXAMPLE: write or read something from disk with prior spinup and shutdown afterwards.
 #
 # #!/bin/bash
 #
@@ -25,12 +25,16 @@
 #   echo "Danger, Danger! The raid was not brought up successfully!"
 #   exit 1
 # else
-#   [write something to disk or read something from disk]
+#   [... write something to disk or read something from disk ...]
 #
 #   if ! switch_raid_off; then
 #     echo "Danger, Danger! The raid could not be shut down properly. It is now locked for further interaction in its current state!"
 #     exit 1
 #   fi
+#
+# TODO:
+# - check if USB port was successfully bound/unbound
+
 
 export RAID_SPINUP_TIME=15
 export RAID_USB_PORT="1-1.2"
@@ -48,12 +52,12 @@ export RAID_SHUTDOWNFILE_BASE="/root/raid-shutdown"
 export RAID_SHUTDOWNFILE_UNIQUE="$RAID_SHUTDOWNFILE_BASE-$UNIQUE_RUN_IDENTIFIER"
 
 function bind_usb {
-	echo "1-1.2" > /sys/bus/usb/drivers/usb/bind
+	echo "$RAID_USB_PORT" > /sys/bus/usb/drivers/usb/bind
 	return $?
 }
 
 function unbind_usb {
-	echo "1-1.2" > /sys/bus/usb/drivers/usb/unbind
+	echo "$RAID_USB_PORT" > /sys/bus/usb/drivers/usb/unbind
 	return $?
 }
 
@@ -76,7 +80,7 @@ function raid_initializing {
 }
 
 function raid_shutting_down {
-	# returns 1 if there is another process currently starting the raid
+	# returns 1 if there is another process currently shutting down the raid
 	if [[ $(ls -1 $RAID_SHUTDOWNFILE_BASE-* 2>/dev/null | grep -v $UNIQUE_RUN_IDENTIFIER | wc -l) -gt "0" ]]; then
 		return 0
 	else
@@ -185,7 +189,7 @@ function switch_raid_off {
 
 	# unbind USB device so no bus scans will wake up the devices from their spun down state
 	# ! need to investigate on what made the disks spin up automatically after some time
-	# ! but I guess this was some regular USB bus scan or something? Any clues? Send me a mail!
+	# ! but I guess this was some periodic USB bus scan or something? Any clues? Send me a mail!
 	unbind_usb
 
 	if [[ -z "$LOCK_RAID" ]]; then
