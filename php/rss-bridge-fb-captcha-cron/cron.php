@@ -17,7 +17,7 @@ $mysqli = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 $res = mysqli_query($mysqli, "SELECT title,feed_url FROM ttrss_feeds WHERE feed_url LIKE '%FacebookBridge%'");
 while ($row = mysqli_fetch_assoc($res)) {
         $success = null;
-        for ( $tries = 0; $tries <= $max_tries; $tries++ ) {
+        for ( $tries = 1; $tries <= $max_tries; $tries++ ) {
                 if ( $success !== true ) {
                         if ( preg_match ($success_pattern, shell_exec("$php_binary $captcha_solver \"" . $row['feed_url'] . "\"" ) ) ) {
                                 $success = true;
@@ -30,7 +30,7 @@ while ($row = mysqli_fetch_assoc($res)) {
                 echo "[SOLVED] [TRIES: $tries_used] [" . $row['title'] . "]\n";
         }
         else {
-                echo "[FAILED] [TRIES: $tries_used] [" . $row['title'] . "]\n";
+                echo "[FAILED] [TRIES: $max_tries] [" . $row['title'] . "]\n";
         }
 }
 ?>
