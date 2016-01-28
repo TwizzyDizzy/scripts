@@ -1,0 +1,14 @@
+[Unit]
+Description=ethercalc (real-time collaborative spreadsheet editing)
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=ethercalc
+Group=ethercalc
+ExecStart=/opt/ethercalc/bin/ethercalc --host 127.0.0.1 --port 9002
+PrivateTmp=yes
+Environment="PATH=/usr/local/bin:/usr/bin:/bin:/opt/nodejs/bin:/usr/local/bin:/usr/bin:/bin"
+
+[Install]
+WantedBy=multi-user.target
