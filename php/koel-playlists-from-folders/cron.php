@@ -27,6 +27,8 @@ $folders = array(
 
 // CONFIG SECTION END
 
+
+// read database variables from koel .env file
 $config_vars = array( "DB_HOST","DB_DATABASE","DB_USERNAME","DB_PASSWORD" );
 
 $file = fopen( $koel_config, "r" );
@@ -40,6 +42,7 @@ while(!feof($file)){
 }
 fclose($file);
 
+// connect to database with credentials from koel .env file
 $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
 
